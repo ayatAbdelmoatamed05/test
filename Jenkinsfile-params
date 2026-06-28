@@ -10,7 +10,6 @@ pipeline {
     }
 
     stages {
-
         stage('Hello World') {
             steps {
                 echo "Hello World from trigger ${params.ENVIRONMENT}"
@@ -22,36 +21,26 @@ pipeline {
                 echo "Hello Jenkins from ${params.ENVIRONMENT}"
             }
         }
-
-        stage('Fail Stage') {
-            steps {
-                error 'This build failed intentionally'
-            }
-        }
     }
 
     post {
+        always {
+            echo 'This block runs regardless of the build outcome.'
+        }
         success {
             echo 'Pipeline completed successfully!'
         }
-
         failure {
             echo 'Pipeline failed!'
-
-            emailext(
-                to: 'ayatmoatamed05@gmail.com',
-                subject: "Build Failed: ${env.JOB_NAME}",
-                body: """
-Hello Ayat,
-
-Pipeline Failed.
-
-Job: ${env.JOB_NAME}
-Build: ${env.BUILD_NUMBER}
-Env: ${params.ENVIRONMENT}
-URL: ${env.BUILD_URL}
-"""
-            )
+            mail to: 'ahmedkhater2611@gmail.com',
+                 subject: "Failed Pipeline: ${env.JOB_NAME} [Build #${env.BUILD_NUMBER}]",
+                 body: "The pipeline failed for environment: ${params.ENVIRONMENT}.\n\nView the build details here: ${env.BUILD_URL}"
+        }
+        aborted {
+            echo 'Pipeline was aborted!'
+            mail to: 'ahmedkhater2611@gmail.com',
+                 subject: "Aborted Pipeline: ${env.JOB_NAME} [Build #${env.BUILD_NUMBER}]",
+                 body: "The pipeline was aborted for environment: ${params.ENVIRONMENT}.\n\nView the build details here: ${env.BUILD_URL}"
         }
     }
 }
