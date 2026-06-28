@@ -27,8 +27,30 @@ pipeline {
         success {
             echo 'Pipeline completed successfully!'
         }
-        failure {
-            echo 'Pipeline failed!'
-        }
+
+failure {
+    echo 'Pipeline failed!'
+
+    emailext(
+        to: 'your_email@gmail.com',
+        subject: "Build Failed: ${env.JOB_NAME}",
+        body: """
+Hello Ayat,
+
+Your Jenkins pipeline has failed.
+
+Job Name: ${env.JOB_NAME}
+Build Number: ${env.BUILD_NUMBER}
+Environment: ${params.ENVIRONMENT}
+
+Build URL:
+${env.BUILD_URL}
+
+Please check the console output.
+
+Regards,
+Jenkins
+    )
+}
     }
 }
