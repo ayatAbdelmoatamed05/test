@@ -1,3 +1,4 @@
+```groovy
 pipeline {
     agent any
 
@@ -23,9 +24,10 @@ pipeline {
             }
         }
 
+        // stage used ONLY for testing failure email
         stage('Fail Stage') {
             steps {
-                error 'This build failed intentionally.'
+                error 'This build failed intentionally for email testing'
             }
         }
 
@@ -37,24 +39,28 @@ pipeline {
         }
 
         failure {
-            echo 'Pipeline failed!'
+            echo 'Pipeline failed! Sending email notification...'
 
             emailext(
                 to: 'ayatmoatamed05@gmail.com',
-                subject: "Build Failed: ${env.JOB_NAME}",
+                subject: "❌ Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
 Hello Ayat,
 
-The pipeline failed.
+Your Jenkins pipeline has FAILED.
 
-Job Name: ${env.JOB_NAME}
-Build Number: ${env.BUILD_NUMBER}
-Environment: ${params.ENVIRONMENT}
+📌 Job Name: ${env.JOB_NAME}
+📌 Build Number: ${env.BUILD_NUMBER}
+📌 Environment: ${params.ENVIRONMENT}
+📌 Build URL: ${env.BUILD_URL}
 
-Build URL:
-${env.BUILD_URL}
+Please check the logs.
+
+Regards,
+Jenkins
 """
             )
         }
     }
 }
+```
