@@ -32,13 +32,13 @@ pipeline {
         }
         failure {
             echo 'Pipeline failed!'
-            mail to: 'ahmedkhater2611@gmail.com',
+            mail to: 'ayatmoatamed05@gmail.com',
                  subject: "Failed Pipeline: ${env.JOB_NAME} [Build #${env.BUILD_NUMBER}]",
                  body: "The pipeline failed for environment: ${params.ENVIRONMENT}.\n\nView the build details here: ${env.BUILD_URL}"
         }
         aborted {
             echo 'Pipeline was aborted!'
-            mail to: 'ahmedkhater2611@gmail.com',
+            mail to: 'ayatmoatamed05@gmail.com',
                  subject: "Aborted Pipeline: ${env.JOB_NAME} [Build #${env.BUILD_NUMBER}]",
                  body: "The pipeline was aborted for environment: ${params.ENVIRONMENT}.\n\nView the build details here: ${env.BUILD_URL}"
         }
