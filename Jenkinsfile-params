@@ -9,7 +9,7 @@ pipeline {
         )
     }
 
-    stages {
+    stagess {
         stage('Hello World') {
             steps {
                 echo "Hello World from trigger ${params.ENVIRONMENT}"
