@@ -40,7 +40,7 @@ pipeline {
             echo 'Pipeline failed!'
 
             emailext(
-                to: 'YOUR_EMAIL@gmail.com',
+                to: 'ayatmoatamed05@gmail.com',
                 subject: "Build Failed: ${env.JOB_NAME}",
                 body: """
 Hello Ayat,
