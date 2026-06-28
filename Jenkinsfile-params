@@ -21,6 +21,15 @@ pipeline {
                 echo "Hello Jenkins from ${params.ENVIRONMENT}"
             }
         }
+
+        // Uncomment this stage only if you want to test the failure email
+        /*
+        stage('Fail Stage') {
+            steps {
+                error 'This build failed intentionally.'
+            }
+        }
+        */
     }
 
     post {
@@ -28,13 +37,13 @@ pipeline {
             echo 'Pipeline completed successfully!'
         }
 
-failure {
-    echo 'Pipeline failed!'
+        failure {
+            echo 'Pipeline failed!'
 
-    emailext(
-        to: 'your_email@gmail.com',
-        subject: "Build Failed: ${env.JOB_NAME}",
-        body: """
+            emailext(
+                to: 'your_email@gmail.com',
+                subject: "Build Failed: ${env.JOB_NAME}",
+                body: """
 Hello Ayat,
 
 Your Jenkins pipeline has failed.
@@ -50,7 +59,8 @@ Please check the console output.
 
 Regards,
 Jenkins
-    )
-}
+"""
+            )
+        }
     }
 }
